@@ -57,6 +57,28 @@ RSpec.describe User, type: :model do
         expect(user_sample.errors[:email]).to include("has already been taken")
       end
     end
+    context "メールアドレスの形式に誤りがある場合" do
+      it "無効な状態かどうか" do
+        user = FactoryBot.build(:user, email: 'test')
+        user.valid?
+        expect(user.errors[:email]).to include('is invalid')
+      end
+    end
+  end
+
+  describe "#password" do
+    context "パスワードが6文字未満の場合" do
+      it "無効な状態かどうか" do
+        user = FactoryBot.build(:user, password: 'testt')
+        user.valid?
+        expect(user.errors[:password]).to include('is too short (minimum is 6 characters)')
+      end
+    end
+  end
+
+  it "名前、メールアドレス、パスワードがあれば有効な状態てかどうか" do
+    user = User.new(name: "testman", email: "test@gmail.com", password: "testtest")
+    expect(user).to be_valid
   end
 
 end
