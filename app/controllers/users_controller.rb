@@ -14,8 +14,9 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      log_in(@user)
-      redirect_to @user, flash: {success: "Welcome to the Sample App!"}
+      @user.send_activation_email
+      # UserMailer.account_activation(@user).deliver_now
+      redirect_to root_path, flash: {info: "Please check your email to activate your account."}
     else
       render "new"   
     end
@@ -23,10 +24,12 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    redirect_to root_url and return unless @user.activated?
   end
 
   def edit
     @user = User.find(params[:id])
+    redirect_to root_url and return unless @user.activated?
   end
 
   def update
