@@ -13,5 +13,7 @@ Rails.application.routes.draw do
 
   resources :account_activations, only: %i[edit]
 
+  resources :password_resets, only: %i[new create edit update]
+
   mount LetterOpenerWeb::Engine, at: "/letter_opener"
 end

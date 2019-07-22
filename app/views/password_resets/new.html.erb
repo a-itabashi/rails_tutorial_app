@@ -1,0 +1,12 @@
+<% provide(:title, "Forget password") %>
+<h1 class="text-center">Forget password</h1>
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <%= form_with(scope: :password_reset, url: password_resets_path) do |f| %>
+      <%= f.label :email %>
+      <%= f.email_field :email, class: "form-control" %>
+
+      <%= f.submit "Submit", class: "btn btn-primary" %>
+    <% end %> 
+  </div>
+</div>
